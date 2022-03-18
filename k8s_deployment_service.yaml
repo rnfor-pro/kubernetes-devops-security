@@ -16,7 +16,7 @@ spec:
         app: devsecops
     spec:
       containers:
-      - image: siddharth67
+      - image: rudolph
         name: devsecops-container
 ---
 apiVersion: v1
