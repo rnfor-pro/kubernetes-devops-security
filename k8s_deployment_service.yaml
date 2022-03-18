@@ -16,7 +16,7 @@ spec:
         app: devsecops
     spec:
       containers:
-      - image: rudolph
+      - image: replace
         name: devsecops-container
 ---
 apiVersion: v1
