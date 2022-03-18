@@ -38,6 +38,12 @@ pipeline {
         -Dsonar.host.url=http://etechlabs.eastus.cloudapp.azure.com:9000 \
         -Dsonar.login=fd218a68d28ebe053e250530a3079ca4895b7fb6"
       }
+       timeout(time: 2, unit: 'MINUTES') {
+          script {
+            waitForQualityGate abortPipeline: true
+          }
+        }
+    }
     }
     stage('Docker Build and Push') {
       steps {
