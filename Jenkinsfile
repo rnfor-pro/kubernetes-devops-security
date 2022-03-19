@@ -36,8 +36,7 @@ pipeline {
         withSonarQubeEnv('SonarQube') {
         sh " mvn clean verify sonar:sonar \
         -Dsonar.projectKey=numeric-application \
-        -Dsonar.host.url=http://etechlabs.eastus.cloudapp.azure.com:9000 \
-        -Dsonar.login=fd218a68d28ebe053e250530a3079ca4895b7fb6"
+        -Dsonar.host.url=http://etechlabs.eastus.cloudapp.azure.com:9000"
       }
        timeout(time: 2, unit: 'MINUTES') {
           script {
