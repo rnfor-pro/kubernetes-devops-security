@@ -33,6 +33,7 @@ pipeline {
     }
     stage('SonarQube - SAST') {
       steps {
+        withSonarQubeEnv('SonarQube') {
         sh " mvn clean verify sonar:sonar \
         -Dsonar.projectKey=numeric-application \
         -Dsonar.host.url=http://etechlabs.eastus.cloudapp.azure.com:9000 \
@@ -43,7 +44,7 @@ pipeline {
             waitForQualityGate abortPipeline: true
           }
         }
-    }
+      }
     }
     stage('Docker Build and Push') {
       steps {
@@ -63,6 +64,6 @@ pipeline {
         }
       }
     }
-    
   }
 }
+
