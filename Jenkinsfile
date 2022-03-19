@@ -25,9 +25,9 @@ pipeline {
     stage('SonarQube - SAST') {
       steps {
         withSonarQubeEnv('SonarQube') {
-          sh " mvn clean verify sonar:sonar \
-        -Dsonar.projectKey=numeric-application \
-        -Dsonar.host.url=http://etechlabs.eastus.cloudapp.azure.com:9000"
+          sh "mvn sonar:sonar \
+		             -Dsonar.projectKey=numeric-application \
+                             -Dsonar.host.url=http://etechlabs.eastus.cloudapp.azure.com:9000"
         }
         timeout(time: 2, unit: 'MINUTES') {
           script {
@@ -37,12 +37,13 @@ pipeline {
       }
     }
 
-    // stage('Vulnerability Scan - Docker ') {
-    //   steps {
-    //     sh "mvn dependency-check:check"
-    //   }
+    //    stage('Vulnerability Scan - Docker ') {
+    //      steps {
+    //         sh "mvn dependency-check:check"   
+    //        }
     // }
-     stage('Vulnerability Scan - Docker') {
+
+    stage('Vulnerability Scan - Docker') {
       steps {
         parallel(
           "Dependency Scan": {
@@ -54,6 +55,7 @@ pipeline {
         )
       }
     }
+
     stage('Docker Build and Push') {
       steps {
         withDockerRegistry([credentialsId: "docker.hub", url: ""]) {
@@ -93,4 +95,3 @@ pipeline {
   }
 
 }
-
