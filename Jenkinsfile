@@ -45,13 +45,6 @@ pipeline {
         }
       }
     }
-
-    //    stage('Vulnerability Scan - Docker ') {
-    //      steps {
-    //         sh "mvn dependency-check:check"   
-    //        }
-    // }
-
     stage('Vulnerability Scan - Docker') {
       steps {
         parallel(
@@ -93,7 +86,7 @@ pipeline {
         )
       }
     }
-     stage('K8S Deployment - DEV') {
+       stage('K8S Deployment - DEV') {
       steps {
         parallel(
           "Deployment": {
@@ -109,7 +102,6 @@ pipeline {
         )
       }
     }
-  }
      stage('Integration Tests - DEV') {
       steps {
         script {
