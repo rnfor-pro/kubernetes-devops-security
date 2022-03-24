@@ -75,7 +75,7 @@ pipeline {
       steps {
         parallel(
           "OPA Scan": {
-            sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
+            sh 'sudo docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
           },
           "Kubesec Scan": {
             sh "bash kubesec-scan.sh"
@@ -109,7 +109,7 @@ pipeline {
     //     script {
     //       try {
     //         withKubeConfig([credentialsId: 'kubeconfig']) {
-    //           sh "bash integration-test.sh"
+    //           sh "sudo bash integration-test.sh"
     //         }
     //       } catch (e) {
     //         withKubeConfig([credentialsId: 'kubeconfig']) {
