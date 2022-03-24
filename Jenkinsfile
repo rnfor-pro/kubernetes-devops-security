@@ -31,7 +31,7 @@ pipeline {
       }
     }
 
-    stage('SonarQube - SAST') {
+ stage('SonarQube - SAST') {
       steps {
         withSonarQubeEnv('SonarQube') {
           sh "mvn sonar:sonar \
@@ -45,6 +45,7 @@ pipeline {
         }
       }
     }
+
     stage('Vulnerability Scan - Docker') {
       steps {
         parallel(
@@ -54,9 +55,9 @@ pipeline {
           "Trivy Scan": {
             sh "bash trivy-docker-image-scan.sh"
           },
-            "OPA Conftest": {
+          "OPA Conftest": {
             sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-docker-security.rego Dockerfile'
-          } 
+          }
         )
       }
     }
@@ -71,6 +72,7 @@ pipeline {
       }
     }
  
+
     stage('Vulnerability Scan - Kubernetes') {
       steps {
         parallel(
@@ -86,7 +88,8 @@ pipeline {
         )
       }
     }
-       stage('K8S Deployment - DEV') {
+
+    stage('K8S Deployment - DEV') {
       steps {
         parallel(
           "Deployment": {
@@ -102,7 +105,8 @@ pipeline {
         )
       }
     }
-     stage('Integration Tests - DEV') {
+
+    stage('Integration Tests - DEV') {
       steps {
         script {
           try {
@@ -118,7 +122,8 @@ pipeline {
         }
       }
     }
-     stage('OWASP ZAP - DAST') {
+
+    stage('OWASP ZAP - DAST') {
       steps {
         withKubeConfig([credentialsId: 'kubeconfig']) {
           sh 'bash zap.sh'
@@ -127,6 +132,7 @@ pipeline {
     }
 
   }
+
   post {
     always {
       junit 'target/surefire-reports/*.xml'
