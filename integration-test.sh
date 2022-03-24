@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#integration-test.sh
+#integration-test.sh .
 
 sleep 5s
 
